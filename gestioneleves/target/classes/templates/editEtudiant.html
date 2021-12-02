@@ -1,0 +1,70 @@
+<html xmlns:th='http://thymeleaf.org'
+      xmlns:layout='http://www.ultraq.net.nz/thymeleaf/layout'
+      layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit des etudiants</title>
+
+    <!--integrer bootstrap /th:href="@{css/bootstrap.min.css}" il va chercherds context du projet-->
+    <link rel="stylesheet" type="text/css" href="../static/css/myStyle.css"
+          th:href="@{/css/myStyle.css}">
+
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap/bootstrap.min.css"
+          th:href="@{/bootstrap/bootstrap.min.css}">
+
+</head>
+<body layout:fragment="content">
+    <!--<div th:insert="template :: header"></div>-->
+
+    <div class="offset-md-3 col-md-6 col-sm-6 col-xs-12 spacer col-md-offset-3  mt-4">
+        <div class="card  ">
+            <div class="card-header">Saisie d'un etudiant</div>
+            <div class="card-body">
+                <!--enctype="application/x-www-form-urlencoded =>si le formulaire contient un fichier binaire comme photo
+                les données sont envoyé sous forme clé, value-->
+                <!--multipart/form-data:ce type de format n'est pas adapté à une utilisation avec des données binaires -->
+
+                <form th:action="@{UpdateEtudiant}" method="post" th:object="${etudiant}" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label class="control-label">Id:</label>
+                        <!--*{nom} => attribut nom de l'objet etudiant-->
+                        <input type="text" th:field="*{id}" class="form-control">
+                        <span th:errors="*{nom}" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Nom:</label>
+                        <!--*{nom} => attribut nom de l'objet etudiant-->
+                        <input type="text" th:field="*{nom}" class="form-control">
+                        <span th:errors="*{nom}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Date:</label>
+                        <input type="date" th:field="*{dateNaissance}" class="form-control">
+                        <span th:errors="*{dateNaissance}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email:</label>
+                        <input type="text" th:field="*{email}" class="form-control">
+                        <span th:errors="*{email}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Photo:</label>
+                          <!--name="picture => si vs l'apeler photo avec dataBinding il sera stoquée ds photo de l'objet Etudiant qui est string et celle-ci de type file-->
+                        <input type="file" name="picture" class="form-control">
+                        <span th:errors="*{photo}" class="text-danger"></span>
+                        <img th:src="@{getPhoto(id=${etudiant.id})}" width="100" height="100" class="rounded-circle">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

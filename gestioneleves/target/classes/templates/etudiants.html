@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--utiliser thymleaf-->
+<html  xmlns:th='http://thymeleaf.org'
+      xmlns:layout='http://www.ultraq.net.nz/thymeleaf/layout'
+       layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>liste des etudiants</title>
+
+    <!--integrer bootstrap /th:href="@{css/bootstrap.min.css}" il va chercherds context du projet-->
+    <link rel="stylesheet" type="text/css" href="../static/css/myStyle.css"
+          th:href="@{/css/myStyle.css}">
+
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap/bootstrap.min.css"
+          th:href="@{/bootstrap/bootstrap.min.css}">
+
+</head>
+
+
+<body  layout:fragment="content">
+
+
+ <div class="container spacer" >
+     <p> <a th:href="@{form}">Saisir un etudiant</a> </p>
+
+ </div>
+
+    <div class="container spacer">
+        <!--formulaire get seulement pour la recherche-->
+        <form th:action="@{index}" method=""get>
+            <div class="form-group">
+                <label > Mot clé:  </label>
+                <!--th:value="${motCle}" = mot clé reste affiché-->
+                <form class="form-inline my-2 my-lg-0">
+                    <input name="motCle" th:value="${motCle}" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+
+            </div>
+
+        </form>
+    </div>
+    <div class="container m_spacer">
+        <table class="table table-striped" >
+            <thead>
+            <tr>
+                <th>ID</th>  <th>NOM</th>   <th>DATE</th>  <th>EMAIL</th>   <th>PHOTO</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e: ${PageEtudiants.content}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.nom}"></td>
+                <td th:text="${e.dateNaissance}"></td>
+                <td th:text="${e.email}"></td>
+                <td>
+                    <img th:src="@{getPhoto(id=${e.id})}" width="100" height="100" class="rounded-circle">
+                </td>
+                <!--supperimer photo-->
+                <td><a th:href="@{supprimer(id=${e.id})}"  onclick="return confirm('Etes-vous sûr de supprimer?')"> supprimer</a></td>
+                <!--editer etudiant-->
+                <td><a th:href="@{edit(id=${e.id})}"> editer</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <!--nav nav-pills = afficher en ligne-->
+        <ul class="nav nav-pills" id="navigation">
+            <!--pour chaque boucle j affiche page p-->
+            <li th:each="p:${pages}" th:class="${p==pageCourante}?active:''" class="nav-item" >
+                <!--th:text="${p}" th:href="@{ index(page=${p} , motCle=${motCle}=> /index?page=2&motCle=e reste active qd on defile les pages-->
+                <a th:text="${p}" th:href="@{ index(page=${p} , motCle=${motCle} ) }" class="nav-link"></a>
+            </li>
+        </ul>
+
+    </div>
+
+</body>
+</html>

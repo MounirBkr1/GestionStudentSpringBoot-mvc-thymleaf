@@ -1,0 +1,16 @@
+/* -------- page etudiant -----------  */
+.m_spacer{
+    margin-top: 80px;
+
+}
+
+.active{
+    background-color:#0dcaf0;
+    border-radius: 3px;
+}
+
+a.nav-link{
+    color:black;
+
+}
+/* -------- page FormeEtudiant -----------  */
